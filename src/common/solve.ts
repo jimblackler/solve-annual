@@ -61,6 +61,18 @@ function place(rows: number[][], piece: PieceSpec, pieceNumber: number) {
   return true;
 }
 
+function flipY(piece: PieceSpec) {
+  return {
+    color: piece.color,
+    rows: piece.rows.toReversed()
+  };
+}
+
+function* variations(piece: PieceSpec) {
+  yield piece;
+  yield flipY(piece);
+}
+
 function* solveFrom(
     pieces: PieceSpec[], remain: number[], rows: number[][]): Generator<number[][]> {
   if (remain.length === 0) {
@@ -68,11 +80,13 @@ function* solveFrom(
   }
   for (let remainNumber = 0; remainNumber !== remain.length; remainNumber++) {
     const pieceNumber = defined(remain[remainNumber]);
-    const piece = defined(pieces[pieceNumber - 1]);
-    if (fits(rows, piece)) {
-      const newRows = deepcopy(rows);
-      place(newRows, piece, pieceNumber);
-      yield* solveFrom(pieces, remain.filter(other => other !== pieceNumber), newRows);
+    const originalPiece = defined(pieces[pieceNumber - 1]);
+    for (const piece of variations(originalPiece)) {
+      if (fits(rows, piece)) {
+        const newRows = deepcopy(rows);
+        place(newRows, piece, pieceNumber);
+        yield* solveFrom(pieces, remain.filter(other => other !== pieceNumber), newRows);
+      }
     }
   }
 }
