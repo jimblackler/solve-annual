@@ -72,8 +72,7 @@ function* solveFrom(pieces: PieceSpec[], remain: number[],
     if (fits(rows, piece)) {
       const newRows = deepcopy(rows);
       place(newRows, piece, pieceNumber);
-      yield* solveFrom(
-          pieces, remain.filter(other => other !== pieceNumber), newRows);
+      yield* solveFrom(pieces, remain.filter(other => other !== pieceNumber), newRows);
     }
   }
 }
