@@ -1,6 +1,7 @@
 import deepcopy from 'deepcopy';
 import type {NextFunction, Request, Response} from 'express';
 import {addPuzzle, type PuzzleSpec} from '../../common/addPuzzle';
+import {solve} from '../../common/solve';
 import {DomStream} from '../domStream';
 import {addScripts} from '../manifest';
 
@@ -75,6 +76,8 @@ export function mainHandler(req: Request, res: Response, next: NextFunction) {
   };
 
   const showRows = deepcopy(spec.rows);
+  solve(spec, showRows);
+
   addPuzzle(document, body, spec, showRows);
 
   addScripts(document, body, 'main');

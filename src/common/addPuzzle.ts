@@ -31,9 +31,9 @@ export function addPuzzle(
         cell.setAttribute('style', 'background:pink');
       } else if (cellValue === -1) {
         cell.setAttribute('style', 'background:black');
-      } else {
-        const pieceSpec = defined(spec.pieces[cellValue]);
-        cell.setAttribute('style', `background:${pieceSpec.color}}`);
+      } else if (cellValue > 0) {
+        const pieceSpec = defined(spec.pieces[cellValue - 1]);
+        cell.setAttribute('style', `background:${pieceSpec.color}`);
       }
     }
   }
