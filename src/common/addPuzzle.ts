@@ -1,21 +1,40 @@
+import {assertDefined as defined} from './check/defined';
 import type {Document, HTMLElement} from './domStreamTypes';
 
-export function addPuzzle(document: Document, parent: HTMLElement) {
+export type PuzzleSpec = {
+  rows: number[][];
+  pieces: PieceSpec[];
+};
+export type PieceSpec = {
+  color: string;
+  rows: number[][];
+};
+
+export function addPuzzle(
+    document: Document, parent: HTMLElement, spec: PuzzleSpec, showRows: number[][]) {
   const puzzle = document.createElement('section');
   parent.append(puzzle);
   puzzle.setAttribute('class', 'puzzle');
 
-  for (let row = 0; row !== 5; row++) {
+  for (let rowNumber = 0; rowNumber !== spec.rows.length; rowNumber++) {
+    const row = defined(showRows[rowNumber]);
     const rowElement = document.createElement('section');
     puzzle.append(rowElement);
     rowElement.setAttribute('class', 'row');
-    for (let column = 0; column !== 5; column++) {
+    for (let column = 0; column !== row.length; column++) {
       const cell = document.createElement('section');
       rowElement.append(cell);
       cell.setAttribute('class', 'cell');
-      const testColors = ['red', 'green', 'blue'];
-      const use = (row + column) % testColors.length;
-      cell.setAttribute('style', `background:${testColors[use]}`);
+
+      const cellValue = defined(row[column]);
+      if (cellValue === -2) {
+        cell.setAttribute('style', 'background:pink');
+      } else if (cellValue === -1) {
+        cell.setAttribute('style', 'background:black');
+      } else {
+        const pieceSpec = defined(spec.pieces[cellValue]);
+        cell.setAttribute('style', `background:${pieceSpec.color}}`);
+      }
     }
   }
 }

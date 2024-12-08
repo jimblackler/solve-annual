@@ -1,5 +1,6 @@
+import deepcopy from 'deepcopy';
 import type {NextFunction, Request, Response} from 'express';
-import {addPuzzle} from '../../common/addPuzzle';
+import {addPuzzle, type PuzzleSpec} from '../../common/addPuzzle';
 import {DomStream} from '../domStream';
 import {addScripts} from '../manifest';
 
@@ -35,7 +36,46 @@ export function mainHandler(req: Request, res: Response, next: NextFunction) {
 
   const {body} = document;
 
-  addPuzzle(document, body);
+  const spec: PuzzleSpec = {
+    rows: [
+      [0, 0, 0, 0, 0, 0, -1],
+      [0, 0, 0, 0, 0, -2, -1],
+      [0, 0, 0, 0, 0, 0, 0],
+      [-2, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, -1, -1, -1, -1]
+    ],
+    pieces: [{
+      color: 'yellow',
+      rows: [[1, 1, 1], [1, 1, 1]]
+    }, {
+      color: 'orange',
+      rows: [[1, 1, 1], [1, 1]]
+    }, {
+      color: 'red',
+      rows: [[1, 1, 1, 1], [1]]
+    }, {
+      color: 'cyan',
+      rows: [[1, 1, 1, 1], [0, 1]]
+    }, {
+      color: 'green',
+      rows: [[1], [1, 1, 1], [0, 0, 1]]
+    }, {
+      color: 'dark green',
+      rows: [[1, 1, 1], [1], [1]]
+    }, {
+      color: 'blue',
+      rows: [[1, 1, 1], [0, 0, 1, 1]]
+    }, {
+      color: 'purple',
+      rows: [[1, 1, 1], [1, 0, 1]]
+    }
+    ]
+  };
+
+  const showRows = deepcopy(spec.rows);
+  addPuzzle(document, body, spec, showRows);
 
   addScripts(document, body, 'main');
 
