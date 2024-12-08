@@ -2,8 +2,8 @@ import deepcopy from 'deepcopy';
 import type {PieceSpec, PuzzleSpec} from './addPuzzle';
 import {assertDefined as defined} from './check/defined';
 
-function getCellOffset(piece: PieceSpec) {
-  const firstRow = defined(piece.rows[0]);
+function getCellOffset(pieceRows: number[][]) {
+  const firstRow = defined(pieceRows[0]);
   return firstRow.findIndex(value => value !== 0);
 }
 
@@ -19,25 +19,25 @@ function firstEmpty(rows: number[][]): [number, number] | undefined {
   return undefined;
 }
 
-function* yieldPositions(rows: number[][], piece: PieceSpec): Generator<[number, number]> {
+function* yieldPositions(rows: number[][], pieceRows: number[][]): Generator<[number, number]> {
   const firstEmpty1 = firstEmpty(rows);
   if (firstEmpty1 === undefined) {
     return;
   }
-  const columnNumber = firstEmpty1[0] - getCellOffset(piece);
+  const columnNumber = firstEmpty1[0] - getCellOffset(pieceRows);
   const rowNumber = firstEmpty1[1];
-  for (let rowNumber1 = 0; rowNumber1 !== piece.rows.length; rowNumber1++) {
-    const row = defined(piece.rows[rowNumber1]);
+  for (let rowNumber1 = 0; rowNumber1 !== pieceRows.length; rowNumber1++) {
+    const row = defined(pieceRows[rowNumber1]);
     for (let columnNumber1 = 0; columnNumber1 !== row.length; columnNumber1++) {
-      if (defined(piece.rows[rowNumber1])[columnNumber1] === 1) {
+      if (defined(pieceRows[rowNumber1])[columnNumber1] === 1) {
         yield [columnNumber + columnNumber1, rowNumber + rowNumber1];
       }
     }
   }
 }
 
-function fits(rows: number[][], piece: PieceSpec) {
-  for (const position of yieldPositions(rows, piece)) {
+function fits(rows: number[][], pieceRows: number[][]) {
+  for (const position of yieldPositions(rows, pieceRows)) {
     const [columnNumber, rowNumber] = position;
     const row = rows[rowNumber];
     if (row === undefined) {
@@ -54,8 +54,8 @@ function fits(rows: number[][], piece: PieceSpec) {
   return true;
 }
 
-function place(rows: number[][], piece: PieceSpec, pieceNumber: number) {
-  for (const position of yieldPositions(rows, piece)) {
+function place(rows: number[][], pieceRows: number[][], pieceNumber: number) {
+  for (const position of yieldPositions(rows, pieceRows)) {
     const [columnNumber, rowNumber] = position;
     const row = defined(rows[rowNumber]);
     row[columnNumber] = pieceNumber;
@@ -63,12 +63,12 @@ function place(rows: number[][], piece: PieceSpec, pieceNumber: number) {
   return true;
 }
 
-function* variations2(piece: PieceSpec) {
-  yield piece;
+function* variations2(pieceRows: number[][]) {
+  yield pieceRows;
 
   const rows: number[][] = [];
-  for (let rowNumber1 = 0; rowNumber1 !== piece.rows.length; rowNumber1++) {
-    const row = defined(piece.rows[rowNumber1]);
+  for (let rowNumber1 = 0; rowNumber1 !== pieceRows.length; rowNumber1++) {
+    const row = defined(pieceRows[rowNumber1]);
     for (let columnNumber1 = 0; columnNumber1 !== row.length; columnNumber1++) {
       while (rows.length <= columnNumber1) {
         rows.push([]);
@@ -80,27 +80,17 @@ function* variations2(piece: PieceSpec) {
       numbers[rowNumber1] = defined(row[columnNumber1]);
     }
   }
-  yield {
-    color: piece.color,
-    rows
-  };
+  yield rows;
 }
 
-function* variations1(piece: PieceSpec) {
-  yield* variations2(piece);
-  yield* variations2({
-    color: piece.color,
-    rows: piece.rows.toReversed()
-  });
+function* variations1(pieceRows: number[][]) {
+  yield* variations2(pieceRows);
+  yield* variations2(pieceRows.toReversed());
 }
 
-function* variations(piece: PieceSpec) {
-  yield* variations1(piece);
-
-  yield* variations1({
-    color: piece.color,
-    rows: piece.rows.map(row => row.toReversed())
-  });
+function* variations(pieceRows: number[][]) {
+  yield* variations1(pieceRows);
+  yield* variations1(pieceRows.map(row => row.toReversed()));
 }
 
 function* solveFrom(
@@ -111,7 +101,7 @@ function* solveFrom(
   for (let remainNumber = 0; remainNumber !== remain.length; remainNumber++) {
     const pieceNumber = defined(remain[remainNumber]);
     const originalPiece = defined(pieces[pieceNumber - 1]);
-    for (const piece of variations(originalPiece)) {
+    for (const piece of variations(originalPiece.rows)) {
       if (fits(rows, piece)) {
         const newRows = deepcopy(rows);
         place(newRows, piece, pieceNumber);
