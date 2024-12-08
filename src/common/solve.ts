@@ -29,7 +29,9 @@ function* yieldPositions(rows: number[][], piece: PieceSpec): Generator<[number,
   for (let rowNumber1 = 0; rowNumber1 !== piece.rows.length; rowNumber1++) {
     const row = defined(piece.rows[rowNumber1]);
     for (let columnNumber1 = 0; columnNumber1 !== row.length; columnNumber1++) {
-      yield [columnNumber + columnNumber1, rowNumber + rowNumber1];
+      if (defined(piece.rows[rowNumber1])[columnNumber1] === 1) {
+        yield [columnNumber + columnNumber1, rowNumber + rowNumber1];
+      }
     }
   }
 }
@@ -55,9 +57,6 @@ function fits(rows: number[][], piece: PieceSpec) {
 function place(rows: number[][], piece: PieceSpec, pieceNumber: number) {
   for (const position of yieldPositions(rows, piece)) {
     const [columnNumber, rowNumber] = position;
-    if (defined(piece.rows[rowNumber])[columnNumber] !== 1) {
-      continue;
-    }
     const row = defined(rows[rowNumber]);
     row[columnNumber] = pieceNumber;
   }
