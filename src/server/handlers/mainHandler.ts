@@ -1,4 +1,3 @@
-import deepcopy from 'deepcopy';
 import type {NextFunction, Request, Response} from 'express';
 import {addPuzzle, type PuzzleSpec} from '../../common/addPuzzle';
 import {solve} from '../../common/solve';
@@ -47,38 +46,38 @@ export function mainHandler(req: Request, res: Response, next: NextFunction) {
       [0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, -1, -1, -1, -1]
     ],
-    pieces: [{
-      color: 'yellow',
-      rows: [[1, 1, 1], [1, 1, 1]]
-    }, {
-      color: 'orange',
-      rows: [[1, 1, 1], [1, 1]]
-    }, {
-      color: 'red',
-      rows: [[1, 1, 1, 1], [1]]
-    }, {
-      color: 'cyan',
-      rows: [[1, 1, 1, 1], [0, 1]]
-    }, {
-      color: 'green',
-      rows: [[1], [1, 1, 1], [0, 0, 1]]
-    }, {
-      color: 'dark green',
-      rows: [[1, 1, 1], [1], [1]]
-    }, {
-      color: 'blue',
-      rows: [[1, 1, 1], [0, 0, 1, 1]]
-    }, {
-      color: 'purple',
-      rows: [[1, 1, 1], [1, 0, 1]]
-    }
+    pieces: [
+      {
+        color: 'yellow',
+        rows: [[1, 1, 1], [1, 1, 1]]
+      }, {
+        color: 'orange',
+        rows: [[1, 1, 1], [1, 1]]
+      }, {
+        color: 'red',
+        rows: [[1, 1, 1, 1], [1]]
+      }, {
+        color: 'cyan',
+        rows: [[1, 1, 1, 1], [0, 1]]
+      }, {
+        color: 'green',
+        rows: [[1], [1, 1, 1], [0, 0, 1]]
+      }, {
+        color: 'dark green',
+        rows: [[1, 1, 1], [1], [1]]
+      }, {
+        color: 'blue',
+        rows: [[1, 1, 1], [0, 0, 1, 1]]
+      }, {
+        color: 'purple',
+        rows: [[1, 1, 1], [1, 0, 1]]
+      }
     ]
   };
 
-  const showRows = deepcopy(spec.rows);
-  solve(spec, showRows);
-
-  addPuzzle(document, body, spec, showRows);
+  for (const showRows of solve(spec)) {
+    addPuzzle(document, body, spec, showRows);
+  }
 
   addScripts(document, body, 'main');
 
