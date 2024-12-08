@@ -1,4 +1,5 @@
 import type {NextFunction, Request, Response} from 'express';
+import {addPuzzle} from '../../common/addPuzzle';
 import {DomStream} from '../domStream';
 import {addScripts} from '../manifest';
 
@@ -33,6 +34,8 @@ export function mainHandler(req: Request, res: Response, next: NextFunction) {
   faviconLink.setAttribute('href', 'favicon.png');
 
   const {body} = document;
+
+  addPuzzle(document, body);
 
   addScripts(document, body, 'main');
 

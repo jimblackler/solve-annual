@@ -2,3 +2,12 @@ body {
 
 }
 
+section.row {
+  display: flex;
+}
+
+section.cell {
+  height: 32px;
+  width: 32px;
+}
+
