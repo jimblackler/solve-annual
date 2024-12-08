@@ -52,22 +52,22 @@ export function mainHandler(req: Request, res: Response, next: NextFunction) {
         rows: [[1, 1, 1], [1, 1, 1]]
       }, {
         color: 'orange',
-        rows: [[1, 1, 1], [1, 1]]
+        rows: [[1, 1, 1], [1, 1, 0]]
       }, {
         color: 'red',
-        rows: [[1, 1, 1, 1], [1]]
+        rows: [[1, 1, 1, 1], [1, 0, 0, 0]]
       }, {
         color: 'cyan',
-        rows: [[1, 1, 1, 1], [0, 1]]
+        rows: [[1, 1, 1, 1], [0, 1, 0, 0]]
       }, {
         color: 'green',
-        rows: [[1], [1, 1, 1], [0, 0, 1]]
+        rows: [[1, 0, 0], [1, 1, 1], [0, 0, 1]]
       }, {
         color: 'dark green',
-        rows: [[1, 1, 1], [1], [1]]
+        rows: [[1, 1, 1], [1, 0, 0], [1, 0, 0]]
       }, {
         color: 'blue',
-        rows: [[1, 1, 1], [0, 0, 1, 1]]
+        rows: [[1, 1, 1, 0], [0, 0, 1, 1]]
       }, {
         color: 'purple',
         rows: [[1, 1, 1], [1, 0, 1]]

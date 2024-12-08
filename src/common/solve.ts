@@ -55,22 +55,53 @@ function fits(rows: number[][], piece: PieceSpec) {
 function place(rows: number[][], piece: PieceSpec, pieceNumber: number) {
   for (const position of yieldPositions(rows, piece)) {
     const [columnNumber, rowNumber] = position;
+    if (defined(piece.rows[rowNumber])[columnNumber] !== 1) {
+      continue;
+    }
     const row = defined(rows[rowNumber]);
     row[columnNumber] = pieceNumber;
   }
   return true;
 }
 
-function flipY(piece: PieceSpec) {
-  return {
+function* variations2(piece: PieceSpec) {
+  yield piece;
+
+  const rows: number[][] = [];
+  for (let rowNumber1 = 0; rowNumber1 !== piece.rows.length; rowNumber1++) {
+    const row = defined(piece.rows[rowNumber1]);
+    for (let columnNumber1 = 0; columnNumber1 !== row.length; columnNumber1++) {
+      while (rows.length <= columnNumber1) {
+        rows.push([]);
+      }
+      const numbers = defined(rows[columnNumber1]);
+      while (numbers.length < rowNumber1) {
+        numbers.push(0);
+      }
+      numbers[rowNumber1] = defined(row[columnNumber1]);
+    }
+  }
+  yield {
     color: piece.color,
-    rows: piece.rows.toReversed()
+    rows
   };
 }
 
+function* variations1(piece: PieceSpec) {
+  yield* variations2(piece);
+  yield* variations2({
+    color: piece.color,
+    rows: piece.rows.toReversed()
+  });
+}
+
 function* variations(piece: PieceSpec) {
-  yield piece;
-  yield flipY(piece);
+  yield* variations1(piece);
+
+  yield* variations1({
+    color: piece.color,
+    rows: piece.rows.map(row => row.toReversed())
+  });
 }
 
 function* solveFrom(
