@@ -61,8 +61,8 @@ function place(rows: number[][], piece: PieceSpec, pieceNumber: number) {
   return true;
 }
 
-function* solveFrom(pieces: PieceSpec[], remain: number[],
-                    rows: number[][]): Generator<number[][]> {
+function* solveFrom(
+    pieces: PieceSpec[], remain: number[], rows: number[][]): Generator<number[][]> {
   if (remain.length === 0) {
     yield rows;
   }
