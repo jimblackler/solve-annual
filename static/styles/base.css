@@ -28,9 +28,9 @@ h3.linkSection a {
   margin: 12px;
 }
 
-
 section.cellm2 {
-  background: darkgrey;
+  background: black;
+  box-shadow:inset 0 0 0 2px white;
 }
 
 section.cellm1 {
