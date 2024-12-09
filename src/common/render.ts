@@ -28,7 +28,7 @@ export function render(
 
       const cellValue = defined(row[column]);
       if (cellValue === -2) {
-        cell.setAttribute('style', 'background:black');
+        cell.setAttribute('style', 'background:darkgray');
       } else if (cellValue === -1) {
         cell.setAttribute('style', 'background:black');
       } else if (cellValue === 0) {
