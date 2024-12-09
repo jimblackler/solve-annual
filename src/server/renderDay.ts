@@ -44,7 +44,30 @@ export async function renderDay(
   const solutions = await getSolutionsCached(month, day);
   const h1 = document.createElement('h1');
   parent.append(h1);
-  h1.append(`${date.toLocaleDateString('default', {month: 'long', day: 'numeric'})} : ${solutions.length} solutions`);
+  h1.append(`${date.toLocaleDateString('default', {
+    month: 'long',
+    day: 'numeric'
+  })} : ${solutions.length} solutions`);
+
+  const linkSection = document.createElement('h3');
+  parent.append(linkSection);
+  linkSection.setAttribute('class', 'linkSection');
+
+  const previousDay = new Date(date);
+  previousDay.setDate(previousDay.getDate() - 1);
+  const nextDay = new Date(date);
+  nextDay.setDate(nextDay.getDate() + 1);
+
+  const previousLink = document.createElement('a');
+  linkSection.append(previousLink);
+  previousLink.setAttribute('href', `/day/${previousDay.getMonth() + 1}/${previousDay.getDate()}`);
+  previousLink.append('<< Previous Day');
+
+  const nextLink = document.createElement('a');
+  linkSection.append(nextLink);
+  nextLink.setAttribute('href', `/day/${nextDay.getMonth() + 1}/${nextDay.getDate()}`);
+  nextLink.append('Next Day >>');
+
   const allSolutions = document.createElement('section');
   parent.append(allSolutions);
   allSolutions.setAttribute('class', 'allSolutions');

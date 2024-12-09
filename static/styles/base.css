@@ -24,3 +24,6 @@ section.cell {
   width: 32px;
 }
 
+h3.linkSection a {
+  margin: 12px;
+}
