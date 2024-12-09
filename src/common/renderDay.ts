@@ -5,8 +5,8 @@ import type {Document, HTMLElement} from './domStreamTypes';
 import {render} from './render';
 import {solve} from './solve';
 
-export function renderDay(document: Document, parent: HTMLElement, month: number, day: number) {
-  const rows = deepcopy(baseSpec.rows)
+function* getSolutions(month: number, day: number) {
+  const rows = deepcopy(baseSpec.rows);
   const monthRow = Math.floor((month - 1) / 6);
   const monthColumn = (month - 1) % 6;
   defined(rows[monthRow])[monthColumn] = -2;
@@ -15,11 +15,14 @@ export function renderDay(document: Document, parent: HTMLElement, month: number
   const dayColumn = (day - 1) % 7;
   defined(rows[dayRow])[dayColumn] = -2;
 
-  const solutions = [...solve(rows, baseSpec.pieces)];
+  yield* solve(rows, baseSpec.pieces);
+}
+
+export function renderDay(document: Document, parent: HTMLElement, month: number, day: number) {
   const allSolutions = document.createElement('section');
   parent.append(allSolutions);
   allSolutions.setAttribute('class', 'allSolutions');
-  for (const solution of solutions) {
+  for (const solution of getSolutions(month, day)) {
     render(document, allSolutions, baseSpec.pieces, solution);
   }
 }
