@@ -1,7 +1,6 @@
 import deepEqual from 'deep-equal';
 import deepcopy from 'deepcopy';
 import {assertDefined as defined} from './check/defined';
-import type {PieceSpec} from './spec';
 
 function getCellOffset(pieceRows: number[][]) {
   const firstRow = defined(pieceRows[0]);
@@ -118,9 +117,9 @@ function* solveFrom(
   }
 }
 
-export function* solve(rows: number[][], specPieces: PieceSpec[]): Generator<number[][]> {
+export function* solve(rows: number[][], specPieces: number[][][]): Generator<number[][]> {
   const allAllVariations =
-      specPieces.map((_, index) => getAllVariations(defined(specPieces[index]).rows));
+      specPieces.map((_, index) => getAllVariations(defined(specPieces[index])));
 
   yield* solveFrom(allAllVariations, specPieces.map((_, index) => index + 1), rows);
 }

@@ -72,6 +72,6 @@ export async function renderDay(
   parent.append(allSolutions);
   allSolutions.setAttribute('class', 'allSolutions');
   for (const solution of solutions) {
-    render(document, allSolutions, baseSpec.pieces, solution);
+    render(document, allSolutions, solution);
   }
 }

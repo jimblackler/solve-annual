@@ -1,9 +1,7 @@
 import {assertDefined as defined} from './check/defined';
 import type {Document, HTMLElement} from './domStreamTypes';
-import type {PieceSpec} from './spec';
 
-export function render(
-    document: Document, parent: HTMLElement, specPieces: PieceSpec[], showRows: number[][]) {
+export function render(document: Document, parent: HTMLElement, showRows: number[][]) {
   const puzzle = document.createElement('section');
   parent.append(puzzle);
   puzzle.setAttribute('class', 'puzzle');
