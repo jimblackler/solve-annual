@@ -21,10 +21,7 @@ function firstEmpty(rows: number[][]): [number, number] | undefined {
 }
 
 function* yieldPositions(rows: number[][], pieceRows: number[][]): Generator<[number, number]> {
-  const firstEmpty1 = firstEmpty(rows);
-  if (firstEmpty1 === undefined) {
-    return;
-  }
+  const firstEmpty1 = defined(firstEmpty(rows));
   const columnNumber = firstEmpty1[0] - getCellOffset(pieceRows);
   const rowNumber = firstEmpty1[1];
   for (let rowNumber1 = 0; rowNumber1 !== pieceRows.length; rowNumber1++) {
