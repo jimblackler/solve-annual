@@ -16,7 +16,7 @@ export function render(
   parent.append(puzzle);
   puzzle.setAttribute('class', 'puzzle');
 
-  for (let rowNumber = 0; rowNumber !== spec.rows.length; rowNumber++) {
+  for (let rowNumber = 0; rowNumber !== showRows.length; rowNumber++) {
     const row = defined(showRows[rowNumber]);
     const rowElement = document.createElement('section');
     puzzle.append(rowElement);
