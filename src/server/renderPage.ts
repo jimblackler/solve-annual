@@ -3,7 +3,8 @@ import type {Document, HTMLElement} from '../common/domStreamTypes';
 import {DomStream} from './domStream';
 import {addScripts} from './manifest';
 
-export function renderPage(res: Response, content: (document: Document, parent: HTMLElement) => void) {
+export async function renderPage(
+    res: Response, content: (document: Document, parent: HTMLElement) => Promise<void>) {
   const domStream = new DomStream(res);
   const {document} = domStream;
 
@@ -33,7 +34,7 @@ export function renderPage(res: Response, content: (document: Document, parent: 
   faviconLink.setAttribute('rel', 'shortcut icon');
   faviconLink.setAttribute('href', 'favicon.png');
   const {body} = document;
-  content(document, body);
+  await content(document, body);
 
   addScripts(document, body, 'main');
 

@@ -133,6 +133,7 @@ export default [
             'no-undefined': 'off',
             'no-underscore-dangle': 'off',
             'no-unreachable-loop': 'warn',
+            'no-unsafe-type-assertion': 'warn',
             'no-useless-assignment': 'warn',
             'no-warning-comments': 'off',
             'no-whitespace-before-property': 'warn',
