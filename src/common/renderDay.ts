@@ -55,7 +55,7 @@ export function renderDay(document: Document, parent: HTMLElement, month: number
   parent.append(allSolutions);
   allSolutions.setAttribute('class', 'allSolutions');
 
-  for (const showRows of solve(spec)) {
-    render(document, allSolutions, spec, showRows);
+  for (const solution of solve(spec)) {
+    render(document, allSolutions, spec, solution);
   }
 }
