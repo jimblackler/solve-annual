@@ -1,9 +1,9 @@
-import type {NextFunction, Request, Response} from 'express';
-import {renderDay} from '../../common/renderDay';
-import {DomStream} from '../domStream';
-import {addScripts} from '../manifest';
+import type {Response} from 'express';
+import type {Document, HTMLElement} from '../common/domStreamTypes';
+import {DomStream} from './domStream';
+import {addScripts} from './manifest';
 
-export function mainHandler(req: Request, res: Response, next: NextFunction) {
+export function renderPage(res: Response, content: (document: Document, parent: HTMLElement) => void) {
   const domStream = new DomStream(res);
   const {document} = domStream;
 
@@ -32,9 +32,8 @@ export function mainHandler(req: Request, res: Response, next: NextFunction) {
   head.append(faviconLink);
   faviconLink.setAttribute('rel', 'shortcut icon');
   faviconLink.setAttribute('href', 'favicon.png');
-
   const {body} = document;
-  renderDay(document, body);
+  content(document, body);
 
   addScripts(document, body, 'main');
 
