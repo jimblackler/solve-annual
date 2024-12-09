@@ -1,5 +1,5 @@
-import {assertDefined as defined} from './check/defined';
-import type {Document, HTMLElement} from './domStreamTypes';
+import {assertDefined as defined} from '../common/check/defined';
+import type {Document, HTMLElement} from '../common/domStreamTypes';
 
 export function render(document: Document, parent: HTMLElement, showRows: number[][]) {
   const puzzle = document.createElement('section');

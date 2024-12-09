@@ -1,10 +1,10 @@
 import {Storage} from '@google-cloud/storage';
 import deepcopy from 'deepcopy';
-import {basePieces, baseRows} from '../common/baseSpec';
+import {basePieces, baseRows} from './baseSpec';
 import {assertDefined as defined} from '../common/check/defined';
 import type {Document, HTMLElement} from '../common/domStreamTypes';
-import {render} from '../common/render';
-import {solve} from '../common/solve';
+import {render} from './render';
+import {solve} from './solve';
 
 function* getSolutions(month: number, day: number) {
   const rows = deepcopy(baseRows);

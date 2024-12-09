@@ -1,6 +1,6 @@
 import deepEqual from 'deep-equal';
 import deepcopy from 'deepcopy';
-import {assertDefined as defined} from './check/defined';
+import {assertDefined as defined} from '../common/check/defined';
 
 function getCellOffset(pieceRows: number[][]) {
   const firstRow = defined(pieceRows[0]);
