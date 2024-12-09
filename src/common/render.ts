@@ -10,7 +10,7 @@ export type PieceSpec = {
   rows: number[][];
 };
 
-export function addPuzzle(
+export function render(
     document: Document, parent: HTMLElement, spec: PuzzleSpec, showRows: number[][]) {
   const puzzle = document.createElement('section');
   parent.append(puzzle);

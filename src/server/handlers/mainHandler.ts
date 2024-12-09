@@ -1,5 +1,5 @@
 import type {NextFunction, Request, Response} from 'express';
-import {addPuzzle, type PuzzleSpec} from '../../common/addPuzzle';
+import {render, type PuzzleSpec} from '../../common/render';
 import {solve} from '../../common/solve';
 import {DomStream} from '../domStream';
 import {addScripts} from '../manifest';
@@ -76,7 +76,7 @@ export function mainHandler(req: Request, res: Response, next: NextFunction) {
   };
 
   for (const showRows of solve(spec)) {
-    addPuzzle(document, body, spec, showRows);
+    render(document, body, spec, showRows);
   }
 
   addScripts(document, body, 'main');
