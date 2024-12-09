@@ -81,25 +81,17 @@ function* variations2(pieceRows: number[][]) {
       numbers[rowNumber1] = defined(row[columnNumber1]);
     }
   }
-  if (!deepEqual(pieceRows, rows)) {
-    yield rows;
-  }
+  yield rows;
 }
 
 function* variations1(pieceRows: number[][]) {
   yield* variations2(pieceRows);
-  const flipped = pieceRows.toReversed();
-  if (!deepEqual(pieceRows, flipped)) {
-    yield* variations2(flipped);
-  }
+  yield* variations2(pieceRows.toReversed());
 }
 
 function* variations(pieceRows: number[][]) {
   yield* variations1(pieceRows);
-  const flipped = pieceRows.map(row => row.toReversed());
-  if (!deepEqual(pieceRows, flipped)) {
-    yield* variations1(flipped);
-  }
+  yield* variations1(pieceRows.map(row => row.toReversed()));
 }
 
 function* solveFrom(
@@ -110,7 +102,13 @@ function* solveFrom(
   for (let remainNumber = 0; remainNumber !== remain.length; remainNumber++) {
     const pieceNumber = defined(remain[remainNumber]);
     const originalPiece = defined(pieces[pieceNumber - 1]);
+    const allVariations: number[][][] = [];
     for (const piece of variations(originalPiece.rows)) {
+      if (allVariations.every(variation => !deepEqual(variation, piece))) {
+        allVariations.push(piece);
+      }
+    }
+    for (const piece of allVariations) {
       if (fits(rows, piece)) {
         const newRows = deepcopy(rows);
         place(newRows, piece, pieceNumber);
