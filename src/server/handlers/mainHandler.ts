@@ -75,8 +75,12 @@ export function mainHandler(req: Request, res: Response, next: NextFunction) {
     ]
   };
 
+  const allSolutions = document.createElement('section');
+  body.append(allSolutions);
+  allSolutions.setAttribute('class', 'allSolutions');
+
   for (const showRows of solve(spec)) {
-    render(document, body, spec, showRows);
+    render(document, allSolutions, spec, showRows);
   }
 
   addScripts(document, body, 'main');

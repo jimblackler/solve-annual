@@ -28,9 +28,11 @@ export function render(
 
       const cellValue = defined(row[column]);
       if (cellValue === -2) {
-        cell.setAttribute('style', 'background:pink');
+        cell.setAttribute('style', 'background:black');
       } else if (cellValue === -1) {
         cell.setAttribute('style', 'background:black');
+      } else if (cellValue === 0) {
+        cell.setAttribute('style', 'background:white');
       } else if (cellValue > 0) {
         const pieceSpec = defined(spec.pieces[cellValue - 1]);
         cell.setAttribute('style', `background:${pieceSpec.color}`);
