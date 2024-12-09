@@ -60,10 +60,10 @@ export function mainHandler(req: Request, res: Response, next: NextFunction) {
         color: 'cyan',
         rows: [[1, 1, 1, 1], [0, 1, 0, 0]]
       }, {
-        color: 'green',
+        color: 'lightgreen',
         rows: [[1, 0, 0], [1, 1, 1], [0, 0, 1]]
       }, {
-        color: 'dark green',
+        color: 'darkgreen',
         rows: [[1, 1, 1], [1, 0, 0], [1, 0, 0]]
       }, {
         color: 'blue',
