@@ -1,3 +1,4 @@
+import deepEqual from 'deep-equal';
 import deepcopy from 'deepcopy';
 import type {PieceSpec, PuzzleSpec} from './addPuzzle';
 import {assertDefined as defined} from './check/defined';
@@ -80,17 +81,25 @@ function* variations2(pieceRows: number[][]) {
       numbers[rowNumber1] = defined(row[columnNumber1]);
     }
   }
-  yield rows;
+  if (!deepEqual(pieceRows, rows)) {
+    yield rows;
+  }
 }
 
 function* variations1(pieceRows: number[][]) {
   yield* variations2(pieceRows);
-  yield* variations2(pieceRows.toReversed());
+  const flipped = pieceRows.toReversed();
+  if (!deepEqual(pieceRows, flipped)) {
+    yield* variations2(flipped);
+  }
 }
 
 function* variations(pieceRows: number[][]) {
   yield* variations1(pieceRows);
-  yield* variations1(pieceRows.map(row => row.toReversed()));
+  const flipped = pieceRows.map(row => row.toReversed());
+  if (!deepEqual(pieceRows, flipped)) {
+    yield* variations1(flipped);
+  }
 }
 
 function* solveFrom(
