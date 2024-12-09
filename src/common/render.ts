@@ -1,17 +1,9 @@
 import {assertDefined as defined} from './check/defined';
 import type {Document, HTMLElement} from './domStreamTypes';
-
-export type PuzzleSpec = {
-  rows: number[][];
-  pieces: PieceSpec[];
-};
-export type PieceSpec = {
-  color: string;
-  rows: number[][];
-};
+import type {PieceSpec} from './spec';
 
 export function render(
-    document: Document, parent: HTMLElement, spec: PuzzleSpec, showRows: number[][]) {
+    document: Document, parent: HTMLElement, specPieces: PieceSpec[], showRows: number[][]) {
   const puzzle = document.createElement('section');
   parent.append(puzzle);
   puzzle.setAttribute('class', 'puzzle');
@@ -34,7 +26,7 @@ export function render(
       } else if (cellValue === 0) {
         cell.setAttribute('style', 'background:white');
       } else if (cellValue > 0) {
-        const pieceSpec = defined(spec.pieces[cellValue - 1]);
+        const pieceSpec = defined(specPieces[cellValue - 1]);
         cell.setAttribute('style', `background:${pieceSpec.color}`);
       }
     }

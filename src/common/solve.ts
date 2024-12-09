@@ -1,7 +1,7 @@
 import deepEqual from 'deep-equal';
 import deepcopy from 'deepcopy';
 import {assertDefined as defined} from './check/defined';
-import type {PuzzleSpec} from './render';
+import type {PieceSpec} from './spec';
 
 function getCellOffset(pieceRows: number[][]) {
   const firstRow = defined(pieceRows[0]);
@@ -118,9 +118,9 @@ function* solveFrom(
   }
 }
 
-export function* solve(spec: PuzzleSpec): Generator<number[][]> {
+export function* solve(rows: number[][], specPieces: PieceSpec[]): Generator<number[][]> {
   const allAllVariations =
-      spec.pieces.map((_, index) => getAllVariations(defined(spec.pieces[index]).rows));
+      specPieces.map((_, index) => getAllVariations(defined(specPieces[index]).rows));
 
-  yield* solveFrom(allAllVariations, spec.pieces.map((_, index) => index + 1), spec.rows);
+  yield* solveFrom(allAllVariations, specPieces.map((_, index) => index + 1), rows);
 }
