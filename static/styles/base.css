@@ -27,3 +27,48 @@ section.cell {
 h3.linkSection a {
   margin: 12px;
 }
+
+
+section.cellm2 {
+  background: darkgrey;
+}
+
+section.cellm1 {
+  background: black;
+}
+
+section.cell0 {
+  background: white;
+}
+
+section.cell1 {
+  background: yellow;
+}
+
+section.cell2 {
+  background: orange;
+}
+
+section.cell3 {
+  background: red;
+}
+
+section.cell4 {
+  background: cyan;
+}
+
+section.cell5 {
+  background: lightgreen;
+}
+
+section.cell6 {
+  background: darkgreen;
+}
+
+section.cell7 {
+  background: blue;
+}
+
+section.cell8 {
+  background: firebrick;
+}

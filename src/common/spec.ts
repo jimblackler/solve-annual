@@ -1,5 +1,4 @@
 export type PieceSpec = {
-  color: string;
   rows: number[][];
 };
 

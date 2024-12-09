@@ -12,28 +12,20 @@ export const baseSpec: PuzzleSpec = {
   ],
   pieces: [
     {
-      color: 'yellow',
       rows: [[1, 1, 1], [1, 1, 1]]
     }, {
-      color: 'orange',
       rows: [[1, 1, 1], [1, 1, 0]]
     }, {
-      color: 'red',
       rows: [[1, 1, 1, 1], [1, 0, 0, 0]]
     }, {
-      color: 'cyan',
       rows: [[1, 1, 1, 1], [0, 1, 0, 0]]
     }, {
-      color: 'lightgreen',
       rows: [[1, 0, 0], [1, 1, 1], [0, 0, 1]]
     }, {
-      color: 'darkgreen',
       rows: [[1, 1, 1], [1, 0, 0], [1, 0, 0]]
     }, {
-      color: 'blue',
       rows: [[1, 1, 1, 0], [0, 0, 1, 1]]
     }, {
-      color: 'firebrick',
       rows: [[1, 1, 1], [1, 0, 1]]
     }
   ]

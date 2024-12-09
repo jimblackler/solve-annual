@@ -16,19 +16,8 @@ export function render(
     for (let column = 0; column !== row.length; column++) {
       const cell = document.createElement('section');
       rowElement.append(cell);
-      cell.setAttribute('class', 'cell');
-
       const cellValue = defined(row[column]);
-      if (cellValue === -2) {
-        cell.setAttribute('style', 'background:darkgray');
-      } else if (cellValue === -1) {
-        cell.setAttribute('style', 'background:black');
-      } else if (cellValue === 0) {
-        cell.setAttribute('style', 'background:white');
-      } else if (cellValue > 0) {
-        const pieceSpec = defined(specPieces[cellValue - 1]);
-        cell.setAttribute('style', `background:${pieceSpec.color}`);
-      }
+      cell.setAttribute('class', `cell cell${cellValue.toString().replace('-', 'm')}`);
     }
   }
 }
