@@ -68,6 +68,12 @@ export async function renderDay(
   nextLink.setAttribute('href', `/day/${nextDay.getMonth() + 1}/${nextDay.getDate()}`);
   nextLink.append('Next Day >>');
 
+  const dateInput = document.createElement('input');
+  linkSection.append(dateInput);
+  dateInput.setAttribute('type', 'date');
+  dateInput.setAttribute('id', 'pickDate');
+  dateInput.setAttribute('value', defined(date.toISOString().split('T')[0]));
+
   const allSolutions = document.createElement('section');
   parent.append(allSolutions);
   allSolutions.setAttribute('class', 'allSolutions');

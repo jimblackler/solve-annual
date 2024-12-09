@@ -24,7 +24,7 @@ section.cell {
   width: 32px;
 }
 
-h3.linkSection a {
+h3.linkSection a, h3.linkSection input {
   margin: 12px;
 }
 
