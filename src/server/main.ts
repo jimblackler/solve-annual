@@ -13,8 +13,9 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 app.route('/').get(asyncHandler(async (req, res, next) => {
+  const date = new Date();
   await renderPage(res, async (document, body) => {
-    await renderDay(document, body, 12, 31);
+    await renderDay(document, body, date.getMonth() + 1, date.getDate());
   });
 }));
 app.route('/day/:month/:day').get(asyncHandler(async (req, res, next) => {
