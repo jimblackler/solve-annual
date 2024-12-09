@@ -1,13 +1,13 @@
 import {Storage} from '@google-cloud/storage';
 import deepcopy from 'deepcopy';
-import {baseSpec} from '../common/baseSpec';
+import {basePieces, baseRows} from '../common/baseSpec';
 import {assertDefined as defined} from '../common/check/defined';
 import type {Document, HTMLElement} from '../common/domStreamTypes';
 import {render} from '../common/render';
 import {solve} from '../common/solve';
 
 function* getSolutions(month: number, day: number) {
-  const rows = deepcopy(baseSpec.rows);
+  const rows = deepcopy(baseRows);
   const monthRow = Math.floor((month - 1) / 6);
   const monthColumn = (month - 1) % 6;
   defined(rows[monthRow])[monthColumn] = -2;
@@ -16,7 +16,7 @@ function* getSolutions(month: number, day: number) {
   const dayColumn = (day - 1) % 7;
   defined(rows[dayRow])[dayColumn] = -2;
 
-  yield* solve(rows, baseSpec.pieces);
+  yield* solve(rows, basePieces);
 }
 
 async function getSolutionsCached(month: number, day: number) {
