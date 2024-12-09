@@ -1,6 +1,5 @@
 import type {NextFunction, Request, Response} from 'express';
-import {render, type PuzzleSpec} from '../../common/render';
-import {solve} from '../../common/solve';
+import {renderDay} from '../../common/renderDay';
 import {DomStream} from '../domStream';
 import {addScripts} from '../manifest';
 
@@ -35,53 +34,7 @@ export function mainHandler(req: Request, res: Response, next: NextFunction) {
   faviconLink.setAttribute('href', 'favicon.png');
 
   const {body} = document;
-
-  const spec: PuzzleSpec = {
-    rows: [
-      [0, 0, 0, 0, 0, 0, -1],
-      [0, 0, 0, 0, 0, -2, -1],
-      [0, 0, 0, 0, 0, 0, 0],
-      [-2, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, -1, -1, -1, -1]
-    ],
-    pieces: [
-      {
-        color: 'yellow',
-        rows: [[1, 1, 1], [1, 1, 1]]
-      }, {
-        color: 'orange',
-        rows: [[1, 1, 1], [1, 1, 0]]
-      }, {
-        color: 'red',
-        rows: [[1, 1, 1, 1], [1, 0, 0, 0]]
-      }, {
-        color: 'cyan',
-        rows: [[1, 1, 1, 1], [0, 1, 0, 0]]
-      }, {
-        color: 'lightgreen',
-        rows: [[1, 0, 0], [1, 1, 1], [0, 0, 1]]
-      }, {
-        color: 'darkgreen',
-        rows: [[1, 1, 1], [1, 0, 0], [1, 0, 0]]
-      }, {
-        color: 'blue',
-        rows: [[1, 1, 1, 0], [0, 0, 1, 1]]
-      }, {
-        color: 'purple',
-        rows: [[1, 1, 1], [1, 0, 1]]
-      }
-    ]
-  };
-
-  const allSolutions = document.createElement('section');
-  body.append(allSolutions);
-  allSolutions.setAttribute('class', 'allSolutions');
-
-  for (const showRows of solve(spec)) {
-    render(document, allSolutions, spec, showRows);
-  }
+  renderDay(document, body);
 
   addScripts(document, body, 'main');
 

@@ -1,7 +1,7 @@
 import deepEqual from 'deep-equal';
 import deepcopy from 'deepcopy';
-import type {PuzzleSpec} from './render';
 import {assertDefined as defined} from './check/defined';
+import type {PuzzleSpec} from './render';
 
 function getCellOffset(pieceRows: number[][]) {
   const firstRow = defined(pieceRows[0]);
