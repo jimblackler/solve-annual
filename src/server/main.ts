@@ -13,7 +13,7 @@ app.use(express.json());
 
 app.route('/').get((req, res, next) => {
   renderPage(res, (document, body) => {
-    renderDay(document, body);
+    renderDay(document, body, 12, 31);
   });
 });
 app.route('/month/:month').get((req, res, next) => {
