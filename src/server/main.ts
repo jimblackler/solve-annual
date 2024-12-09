@@ -18,6 +18,7 @@ app.route('/').get(asyncHandler(async (req, res, next) => {
   });
 }));
 app.route('/day/:month/:day').get(asyncHandler(async (req, res, next) => {
+  res.set('Cache-control', `public, max-age=${5 * 24 * 60 * 60}`);
   const month = Number.parseInt(req.params.month);
   const day = Number.parseInt(req.params.day);
   if (month >= 1 && month <= 12 && day >= 1 && day <= 31) {
