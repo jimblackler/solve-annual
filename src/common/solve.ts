@@ -1,6 +1,6 @@
 import deepEqual from 'deep-equal';
 import deepcopy from 'deepcopy';
-import type {PieceSpec, PuzzleSpec} from './addPuzzle';
+import type {PuzzleSpec} from './addPuzzle';
 import {assertDefined as defined} from './check/defined';
 
 function getCellOffset(pieceRows: number[][]) {
@@ -94,30 +94,36 @@ function* variations(pieceRows: number[][]) {
   yield* variations1(pieceRows.map(row => row.toReversed()));
 }
 
+function getAllVariations(pieceRows: number[][]) {
+  const allVariations: number[][][] = [];
+  for (const piece of variations(pieceRows)) {
+    if (allVariations.every(variation => !deepEqual(variation, piece))) {
+      allVariations.push(piece);
+    }
+  }
+  return allVariations;
+}
+
 function* solveFrom(
-    pieces: PieceSpec[], remain: number[], rows: number[][]): Generator<number[][]> {
+    allAllVariations: number[][][][], remain: number[], rows: number[][]): Generator<number[][]> {
   if (remain.length === 0) {
     yield rows;
   }
   for (let remainNumber = 0; remainNumber !== remain.length; remainNumber++) {
     const pieceNumber = defined(remain[remainNumber]);
-    const originalPiece = defined(pieces[pieceNumber - 1]);
-    const allVariations: number[][][] = [];
-    for (const piece of variations(originalPiece.rows)) {
-      if (allVariations.every(variation => !deepEqual(variation, piece))) {
-        allVariations.push(piece);
-      }
-    }
-    for (const piece of allVariations) {
-      if (fits(rows, piece)) {
+    for (const variation of defined(allAllVariations[pieceNumber - 1])) {
+      if (fits(rows, variation)) {
         const newRows = deepcopy(rows);
-        place(newRows, piece, pieceNumber);
-        yield* solveFrom(pieces, remain.filter(other => other !== pieceNumber), newRows);
+        place(newRows, variation, pieceNumber);
+        yield* solveFrom(allAllVariations, remain.filter(other => other !== pieceNumber), newRows);
       }
     }
   }
 }
 
 export function* solve(spec: PuzzleSpec): Generator<number[][]> {
-  yield* solveFrom(spec.pieces, spec.pieces.map((_, index) => index + 1), spec.rows);
+  const allAllVariations =
+      spec.pieces.map((_, index) => getAllVariations(defined(spec.pieces[index]).rows));
+
+  yield* solveFrom(allAllVariations, spec.pieces.map((_, index) => index + 1), spec.rows);
 }
