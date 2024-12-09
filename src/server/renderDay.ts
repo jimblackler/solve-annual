@@ -40,10 +40,15 @@ async function getSolutionsCached(month: number, day: number) {
 
 export async function renderDay(
     document: Document, parent: HTMLElement, month: number, day: number) {
+  const date = new Date(2024, month - 1, day, 0, 0, 0, 0);
+  const solutions = await getSolutionsCached(month, day);
+  const h1 = document.createElement('h1');
+  parent.append(h1);
+  h1.append(`${date.toLocaleDateString('default', {month: 'long', day: 'numeric'})} : ${solutions.length} solutions`);
   const allSolutions = document.createElement('section');
   parent.append(allSolutions);
   allSolutions.setAttribute('class', 'allSolutions');
-  for (const solution of await getSolutionsCached(month, day)) {
+  for (const solution of solutions) {
     render(document, allSolutions, baseSpec.pieces, solution);
   }
 }
