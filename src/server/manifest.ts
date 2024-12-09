@@ -13,6 +13,6 @@ export function addScripts(document: Document, parent: HTMLElement, entry: strin
     const script = document.createElement('script');
     parent.append(script);
     script.setAttribute('type', 'module');
-    script.setAttribute('src', `dist/${file}`);
+    script.setAttribute('src', `/dist/${file}`);
   }
 }
