@@ -30,13 +30,6 @@ app.route('/day/:month/:day').get(asyncHandler(async (req, res, next) => {
     next();
   }
 }));
-app.route('/month/:month').get(asyncHandler(async (req, res, next) => {
-  await renderPage(res, async (document, body) => {
-    const p = document.createElement('p');
-    body.append(p);
-    p.append(`month = ${req.params.month}`);
-  });
-}));
 app.route('/dist/{/*path}').get((req, res) => {
   res.set('Cache-control', `public, max-age=${365 * 24 * 60 * 60}`);
   send(req, assertDefined(assertNotNull(parseurl(req)?.pathname)), {root: 'static'}).pipe(res);
